@@ -1,4 +1,4 @@
-echo __pycache__/ > .gitignore
-echo *.pyc >> .gitignore
-echo .coverage >> .gitignore
-echo htmlcov/ >> .gitignore
+__pycache__/
+*.pyc
+.coverage
+htmlcov/

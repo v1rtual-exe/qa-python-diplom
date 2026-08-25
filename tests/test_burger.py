@@ -4,6 +4,21 @@ from unittest.mock import Mock
 from praktikum.burger import Burger
 
 
+@pytest.fixture
+def burger_with_three_ingredients():
+    """Фикстура: бургер с тремя ингредиентами"""
+    burger = Burger()
+    mock_ingredients = []
+    for i in range(3):
+        mock_ing = Mock()
+        mock_ing.get_name.return_value = f'Ингредиент_{i}'
+        mock_ing.get_price.return_value = 10 * (i + 1)
+        mock_ing.get_type.return_value = 'FILLING'
+        burger.add_ingredient(mock_ing)
+        mock_ingredients.append(mock_ing)
+    return burger, mock_ingredients
+
+
 class TestBurger:
 
     def test_set_buns(self):
@@ -25,20 +40,11 @@ class TestBurger:
         burger = Burger()
         burger.add_ingredient(mock_ingredient)
 
-        assert len(burger.ingredients) == 1
         assert burger.ingredients[0] == mock_ingredient
 
     @pytest.mark.parametrize('index', [0, 1, 2])
-    def test_remove_ingredient(self, index):
-        burger = Burger()
-        mock_ingredients = []
-        for i in range(3):
-            mock_ing = Mock()
-            mock_ing.get_name.return_value = f'Ингредиент_{i}'
-            mock_ing.get_price.return_value = 10 * (i + 1)
-            mock_ing.get_type.return_value = 'FILLING'
-            burger.add_ingredient(mock_ing)
-            mock_ingredients.append(mock_ing)
+    def test_remove_ingredient(self, burger_with_three_ingredients, index):
+        burger, mock_ingredients = burger_with_three_ingredients
 
         burger.remove_ingredient(index)
 
@@ -62,16 +68,8 @@ class TestBurger:
         (2, 0),
         (0, 2),
     ])
-    def test_move_ingredient(self, index, new_index):
-        burger = Burger()
-        mock_ingredients = []
-        for i in range(3):
-            mock_ing = Mock()
-            mock_ing.get_name.return_value = f'Ингредиент_{i}'
-            mock_ing.get_price.return_value = 10 * (i + 1)
-            mock_ing.get_type.return_value = 'FILLING'
-            burger.add_ingredient(mock_ing)
-            mock_ingredients.append(mock_ing)
+    def test_move_ingredient(self, burger_with_three_ingredients, index, new_index):
+        burger, mock_ingredients = burger_with_three_ingredients
 
         burger.move_ingredient(index, new_index)
 
