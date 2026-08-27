@@ -6,7 +6,6 @@ from praktikum.burger import Burger
 
 @pytest.fixture
 def burger_with_three_ingredients():
-    """Фикстура: бургер с тремя ингредиентами"""
     burger = Burger()
     mock_ingredients = [
         Mock(),
@@ -55,13 +54,17 @@ class TestBurger:
 
         assert burger.ingredients[0] == mock_ingredient
 
-    @pytest.mark.parametrize('index', [0, 1, 2])
-    def test_remove_ingredient(self, burger_with_three_ingredients, index):
+    @pytest.mark.parametrize('index, expected_indices', [
+        (0, [1, 2]),
+        (1, [0, 2]),
+        (2, [0, 1]),
+    ])
+    def test_remove_ingredient(self, burger_with_three_ingredients, index, expected_indices):
         burger, mock_ingredients = burger_with_three_ingredients
 
         burger.remove_ingredient(index)
 
-        expected_ingredients = [mock_ingredients[i] for i in range(3) if i != index]
+        expected_ingredients = [mock_ingredients[i] for i in expected_indices]
         assert burger.ingredients == expected_ingredients
 
     def test_remove_ingredient_invalid_index(self):
