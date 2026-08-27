@@ -8,14 +8,27 @@ from praktikum.burger import Burger
 def burger_with_three_ingredients():
     """Фикстура: бургер с тремя ингредиентами"""
     burger = Burger()
-    mock_ingredients = []
-    for i in range(3):
-        mock_ing = Mock()
-        mock_ing.get_name.return_value = f'Ингредиент_{i}'
-        mock_ing.get_price.return_value = 10 * (i + 1)
-        mock_ing.get_type.return_value = 'FILLING'
-        burger.add_ingredient(mock_ing)
-        mock_ingredients.append(mock_ing)
+    mock_ingredients = [
+        Mock(),
+        Mock(),
+        Mock()
+    ]
+    
+    mock_ingredients[0].get_name.return_value = 'Ингредиент_0'
+    mock_ingredients[0].get_price.return_value = 10
+    mock_ingredients[0].get_type.return_value = 'FILLING'
+    burger.add_ingredient(mock_ingredients[0])
+    
+    mock_ingredients[1].get_name.return_value = 'Ингредиент_1'
+    mock_ingredients[1].get_price.return_value = 20
+    mock_ingredients[1].get_type.return_value = 'FILLING'
+    burger.add_ingredient(mock_ingredients[1])
+    
+    mock_ingredients[2].get_name.return_value = 'Ингредиент_2'
+    mock_ingredients[2].get_price.return_value = 30
+    mock_ingredients[2].get_type.return_value = 'FILLING'
+    burger.add_ingredient(mock_ingredients[2])
+    
     return burger, mock_ingredients
 
 
